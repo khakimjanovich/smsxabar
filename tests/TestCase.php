@@ -1,37 +1,38 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Khakimjanovich\SMSXabar\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Khakimjanovich\SMSXabar\SMSXabarServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\SkeletonServiceProvider;
 
 class TestCase extends Orchestra
 {
+    public function getEnvironmentSetUp($app): void
+    {
+        config()->set('database.default', 'testing');
+    }
+
+    protected function defineEnvironment($app)
+    {
+        $app['config']->set('smsxabar.endpoint', 'https://fake-smsxabar.test/send');
+        $app['config']->set('smsxabar.username', 'demo-user');
+        $app['config']->set('smsxabar.password', 'demo-password');
+    }
+
     protected function setUp(): void
     {
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn(string $modelName) => 'Khakimjanovich\\SMSXabar\\Database\\Factories\\' . class_basename($modelName) . 'Factory'
         );
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            SkeletonServiceProvider::class,
+            SMSXabarServiceProvider::class,
         ];
-    }
-
-    public function getEnvironmentSetUp($app)
-    {
-        config()->set('database.default', 'testing');
-
-        /*
-         foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__ . '/database/migrations') as $migration) {
-            (include $migration->getRealPath())->up();
-         }
-         */
     }
 }
