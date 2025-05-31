@@ -2,11 +2,13 @@
 
 namespace Khakimjanovich\SMSXabar;
 
+use Illuminate\Support\Str;
+
 class SMSXabarMessage
 {
     public string $recipient;
 
-    public string $messageId;
+    public string $message_id;
 
     public string $originator = '3700';
 
@@ -16,7 +18,7 @@ class SMSXabarMessage
     {
         $instance = new self;
         $instance->recipient = $recipient;
-        $instance->messageId = (string) \Str::uuid();
+        $instance->message_id = Str::uuid()->toString();
         $instance->content = $text;
 
         return $instance;

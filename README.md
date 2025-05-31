@@ -32,6 +32,7 @@ Then publish the config file:
 ```bash
 php artisan vendor:publish --tag="smsxabar-config"
 ```
+
 ## Configuration
 
 Add the following environment variables to your .env file:
@@ -76,35 +77,40 @@ class AccountLoginNotification extends Notification
         return SmsXabarMessage::create(
             $notifiable->routeNotificationForSmsXabar(),
             'Your one-time login code is: 257505'
-        )->from('MUAMALAT');
+        )->from('SOMEONE');
     }
 }
 ```
 
 ## Available Message Methods
-`create(string $recipient, string $text)`
-Sets the recipient and message content. Automatically generates a UUID message ID.
 
-`from(string $originator)`
-Sets a custom sender name (defaults to `3700`).
+- `create(string $recipient, string $text)`  
+  Sets the recipient and message content.
+
+- `from(string $originator)`
+  Sets a custom sender name (defaults to `3700`).
 
 ## Testing
+
 ```bash
   vendor/bin/pest
 ```
+
 Tests are powered by Pest and Laravel Testbench.
 
-## Changelog
+# Changelog
 
-Please see CHANGELOG for more information on what has changed recently.
+Please see [CHANGELOG](CHANGELOG.md) for more information
 
-## Security 
+# Security
 
-If you discover any security-related issues, please email yunusalikhakimjanovich@gmail.com instead of using the issue tracker.
+If you discover any security-related issues, please email yunusalikhakimjanovich@gmail.com instead of using the issue
+tracker.
 
-## Contributing
+# Contributing
 
 Contributions are very welcome! Please submit a pull request or open an issue for any bug or feature request.
 
-## License
+# License
+
 The MIT License (MIT). Please see License File for more information.
