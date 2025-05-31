@@ -2,6 +2,4 @@
 
 namespace Khakimjanovich\SMSXabar;
 
-class SMSXabar
-{
-}
+class SMSXabar {}
