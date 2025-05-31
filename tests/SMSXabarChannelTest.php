@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
@@ -12,7 +11,8 @@ it('sends SMS via SmsXabarChannel', function () {
         'https://fake-smsxabar.test/send' => Http::response('Request is received', 200),
     ]);
 
-    $notifiable = new class {
+    $notifiable = new class
+    {
         use Notifiable;
 
         public function routeNotificationForSmsXabar(): string
@@ -21,7 +21,8 @@ it('sends SMS via SmsXabarChannel', function () {
         }
     };
 
-    $notification = new class extends Notification {
+    $notification = new class extends Notification
+    {
         public function via($notifiable): array
         {
             return [SmsXabarChannel::class];
