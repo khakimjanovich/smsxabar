@@ -12,7 +12,7 @@ it('creates a message with recipient and content', function () {
     expect($message)->toBeInstanceOf(SmsXabarMessage::class)
         ->and($message->recipient)->toBe($recipient)
         ->and($message->content)->toBe($text)
-        ->and(Str::isUuid($message->messageId))->toBeTrue()
+        ->and(Str::isUuid($message->message_id))->toBeTrue()
         ->and($message->originator)->toBe('3700'); // default originator
 });
 
