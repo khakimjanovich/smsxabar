@@ -1,93 +1,110 @@
-# :package_description
+# Laravel Notification Channel for SMSXabar
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/:vendor_slug/:package_slug/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/:vendor_slug/:package_slug/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/:vendor_slug/:package_slug.svg?style=flat-square)](https://packagist.org/packages/:vendor_slug/:package_slug)
-<!--delete-->
+This package makes it easy to send notifications via [SMSXabar](https://smsxabar.uz) with Laravel.
+
+> Built with ❤️ by [Yunusali Abduraxmanov](mailto:yunusalikhakimjanovich@gmail.com)
+
 ---
-This repo can be used to scaffold a Laravel package. Follow these steps to get started:
 
-1. Press the "Use this template" button at the top of this repo to create a new repo with the contents of this skeleton.
-2. Run "php ./configure.php" to run a script that will replace all placeholders throughout all the files.
-3. Have fun creating your package.
-4. If you need help creating a package, consider picking up our <a href="https://laravelpackage.training">Laravel Package Training</a> video course.
+## Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Available Message methods](#available-message-methods)
+- [Changelog](#changelog)
+- [Testing](#testing)
+- [Security](#security)
+- [Contributing](#contributing)
+- [License](#license)
+
 ---
-<!--/delete-->
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
-
-## Support us
-
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/:package_name.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/:package_name)
-
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
-
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
 
 ## Installation
 
-You can install the package via composer:
+You can install this package via Composer:
 
 ```bash
-composer require :vendor_slug/:package_slug
+composer require khakimjanovich/smsxabar
 ```
 
-You can publish and run the migrations with:
+Then publish the config file:
 
 ```bash
-php artisan vendor:publish --tag=":package_slug-migrations"
-php artisan migrate
+php artisan vendor:publish --tag="smsxabar-config"
 ```
+## Configuration
 
-You can publish the config file with:
+Add the following environment variables to your .env file:
 
-```bash
-php artisan vendor:publish --tag=":package_slug-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag=":package_slug-views"
+```dotenv
+SMSXABAR_API_URL=https://your-smsxabar-endpoint/send
+SMSXABAR_USERNAME=your-username
+SMSXABAR_PASSWORD=your-password
 ```
 
 ## Usage
 
+Routing the Notification
+
+Make sure your notifiable model has a routeNotificationForSmsXabar method:
+
 ```php
-$variable = new VendorName\Skeleton();
-echo $variable->echoPhrase('Hello, VendorName!');
+public function routeNotificationForSmsXabar(): string
+{
+    return $this->phone_number;
+}
 ```
+
+## Sending a Notification
+
+Here's an example notification:
+
+```php
+use Illuminate\Notifications\Notification;
+use Khakimjanovich\SMSXabar\Channels\SmsXabarChannel;
+use Khakimjanovich\SMSXabar\Message\SmsXabarMessage;
+
+class AccountLoginNotification extends Notification
+{
+    public function via($notifiable)
+    {
+        return [SmsXabarChannel::class];
+    }
+
+    public function toSmsXabar($notifiable): SmsXabarMessage
+    {
+        return SmsXabarMessage::create(
+            $notifiable->routeNotificationForSmsXabar(),
+            'Your one-time login code is: 257505'
+        )->from('MUAMALAT');
+    }
+}
+```
+
+## Available Message Methods
+`create(string $recipient, string $text)`
+Sets the recipient and message content. Automatically generates a UUID message ID.
+
+`from(string $originator)`
+Sets a custom sender name (defaults to `3700`).
 
 ## Testing
-
 ```bash
-composer test
+  vendor/bin/pest
 ```
+Tests are powered by Pest and Laravel Testbench.
 
 ## Changelog
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+Please see CHANGELOG for more information on what has changed recently.
+
+## Security 
+
+If you discover any security-related issues, please email yunusalikhakimjanovich@gmail.com instead of using the issue tracker.
 
 ## Contributing
 
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [:author_name](https://github.com/:author_username)
-- [All Contributors](../../contributors)
+Contributions are very welcome! Please submit a pull request or open an issue for any bug or feature request.
 
 ## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+The MIT License (MIT). Please see License File for more information.
