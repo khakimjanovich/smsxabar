@@ -14,7 +14,7 @@ class SMSXabarChannel
      */
     public function send($notifiable, Notification $notification): void
     {
-        if (!method_exists($notification, 'toSmsXabar')) {
+        if (! method_exists($notification, 'toSmsXabar')) {
             return;
         }
 
