@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
@@ -25,12 +27,12 @@ it('sends SMS via SmsXabarChannel', function () {
     {
         public function via($notifiable): array
         {
-            return [SmsXabarChannel::class];
+            return [SMSXabarChannel::class];
         }
 
-        public function toSmsXabar($notifiable): SmsXabarMessage
+        public function toSmsXabar($notifiable): SMSXabarMessage
         {
-            return SmsXabarMessage::create($notifiable->routeNotificationForSmsXabar(), 'Test message');
+            return SMSXabarMessage::create($notifiable->routeNotificationForSmsXabar(), 'Test message');
         }
     };
 

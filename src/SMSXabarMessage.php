@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Khakimjanovich\SMSXabar;
 
 use Illuminate\Support\Str;
 
-class SMSXabarMessage
+final class SMSXabarMessage
 {
     public string $recipient;
 

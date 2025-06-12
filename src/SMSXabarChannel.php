@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Khakimjanovich\SMSXabar;
 
 use Illuminate\Http\Client\ConnectionException;
@@ -7,7 +9,7 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
 use Khakimjanovich\SMSXabar\Exceptions\SMSXabarException;
 
-class SMSXabarChannel
+final class SMSXabarChannel
 {
     /**
      * @throws SMSXabarException

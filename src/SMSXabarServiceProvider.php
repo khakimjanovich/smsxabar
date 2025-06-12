@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Khakimjanovich\SMSXabar;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class SMSXabarServiceProvider extends PackageServiceProvider
+final class SMSXabarServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
