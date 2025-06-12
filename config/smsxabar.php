@@ -1,6 +1,6 @@
 <?php
 
-// config for VendorName/Skeleton
+// config for Khakimjanovich/SMSXabar
 return [
     'endpoint' => env('SMS_XABAR_ENDPOINT'),
     'username' => env('SMS_XABAR_USERNAME'),
